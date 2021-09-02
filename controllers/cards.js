@@ -42,7 +42,7 @@ const deleteCard = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'Bad Request') {
+      if (err.name === 'Not Found') {
         res.status(err.statusCode).send({ message: `${err.name}: ${err.message}` });
       } else if (err.name === 'CastError') {
         Promise.reject(badRequestError)
