@@ -42,8 +42,11 @@ const deleteCard = (req, res) => {
       }
     })
     .catch((err) => {
-      if (err.name === 'Not Found') {
+      if (err.name === 'Bad Request') {
         res.status(err.statusCode).send({ message: `${err.name}: ${err.message}` });
+      } else if (err.name === 'CastError') {
+        Promise.reject(badRequestError)
+          .catch((error) => res.status(error.statusCode).send({ message: `${error.name}: ${error.message}` }));
       } else {
         res.status(500).send({ message: 'На сервере произошла ошибка' });
       }
@@ -69,6 +72,9 @@ const putLike = (req, res) => {
     .catch((err) => {
       if (err.name === 'Bad Request') {
         res.status(err.statusCode).send({ message: `${err.name}: ${err.message}` });
+      } else if (err.name === 'CastError') {
+        Promise.reject(badRequestError)
+          .catch((error) => res.status(error.statusCode).send({ message: `${error.name}: ${error.message}` }));
       } else {
         res.status(500).send({ message: 'На сервере произошла ошибка' });
       }
@@ -94,6 +100,9 @@ const removeLike = (req, res) => {
     .catch((err) => {
       if (err.name === 'Bad Request') {
         res.status(err.statusCode).send({ message: `${err.name}: ${err.message}` });
+      } else if (err.name === 'CastError') {
+        Promise.reject(badRequestError)
+          .catch((error) => res.status(error.statusCode).send({ message: `${error.name}: ${error.message}` }));
       } else {
         res.status(500).send({ message: 'На сервере произошла ошибка' });
       }
