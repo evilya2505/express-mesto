@@ -24,6 +24,8 @@ const getUserById = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         throw new BadRequestError('Переданы неккоректные данные.');
+      } else {
+        next(err);
       }
     })
     .catch(next);
@@ -116,6 +118,8 @@ const updateUserInfo = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         throw new BadRequestError('Переданы неккоректные данные.');
+      } else {
+        next(err);
       }
     })
     .catch(next);
@@ -141,6 +145,8 @@ const updateUserAvatar = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError' || err.name === 'ValidationError') {
         throw new BadRequestError('Переданы неккоректные данные.');
+      } else {
+        next(err);
       }
     })
     .catch(next);

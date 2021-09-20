@@ -48,6 +48,8 @@ const deleteCard = (req, res, next) => {
         throw new NotFoundError('Карточка с указанным _id не найдена.');
       } else if (err.name === 'CastError') {
         throw new BadRequestError('Переданы некорректные данные.');
+      } else {
+        next(err);
       }
     })
     .catch(next);
@@ -63,12 +65,15 @@ const putLike = (req, res, next) => {
     { new: true },
   )
     .orFail(new BadRequestError('Переданы неккоректные данные.'))
+    .catch(next)
     .then((card) => {
       res.send({ data: card });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
         throw new BadRequestError('Переданы неккоректные данные.');
+      } else {
+        next(err);
       }
     })
     .catch(next);
@@ -90,6 +95,8 @@ const removeLike = (req, res, next) => {
     .catch((err) => {
       if (err.name === 'CastError') {
         throw new BadRequestError('Переданы неккоректные данные.');
+      } else {
+        next(err);
       }
     })
     .catch(next);
