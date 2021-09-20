@@ -5,6 +5,7 @@ const User = require('../models/user');
 const BadRequestError = require('../errors/BadRequestError');
 const NotFoundError = require('../errors/NotFoundError');
 const ConflictError = require('../errors/ConflictError');
+const UnauthorizedError = require('../errors/UnauthorizedError');
 
 // --- Описание схем пользователя ---
 // Получить всех пользователей
@@ -64,7 +65,7 @@ const login = (req, res, next) => {
   User.findOne({ email }).select('+password')
     .then((user) => {
       if (!user) {
-        throw new NotFoundError('Пользователь не найден.');
+        throw new UnauthorizedError('Неправильная почта или пароль.');
       }
 
       _id = user._id;
@@ -72,7 +73,7 @@ const login = (req, res, next) => {
     })
     .then((matched) => {
       if (!matched) {
-        throw new NotFoundError('Пользователь не найден.');
+        throw new UnauthorizedError('Неправильная почта или пароль.');
       }
 
       const token = jwt.sign(

@@ -64,8 +64,7 @@ const putLike = (req, res, next) => {
     { $addToSet: { likes: _id } },
     { new: true },
   )
-    .orFail(new BadRequestError('Переданы неккоректные данные.'))
-    .catch(next)
+    .orFail(new NotFoundError('Карточка с указанным _id не найдена.'))
     .then((card) => {
       res.send({ data: card });
     })
@@ -88,7 +87,7 @@ const removeLike = (req, res, next) => {
     { $pull: { likes: _id } },
     { new: true },
   )
-    .orFail(new BadRequestError('Переданы неккоректные данные.'))
+    .orFail(new NotFoundError('Карточка с указанным _id не найдена.'))
     .then((card) => {
       res.send({ data: card });
     })
